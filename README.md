@@ -1,14 +1,14 @@
 ## Dmitrii Makarov's Project
 
-A brief description of what the application does and its purpose.
-
-![Design Mockup](design.png)
-
-
----
-How to Navigate
+# 🚀 Interactive Demo 
 
 ![Navigate Between Tasks](navigate.gif)
+
+---
+
+# 🧩 Architecture Overview
+
+![Design Mockup](design.png)
 
 ---
 
