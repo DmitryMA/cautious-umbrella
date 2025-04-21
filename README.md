@@ -105,9 +105,21 @@ After starting, you will see in the console:
 
 ## Scripts
 
-- ```yarn start``` — install dependencies and start the application.  
-- ```yarn build``` — create a production build (if configured).  
-- ```yarn test``` — run tests (if any).
+### Server (in the `server` folder)
+| Command       | Description                                 |
+| ------------- | ------------------------------------------- |
+| `yarn start`  | Start the server: `node index.js`           |
+| `yarn dev`    | Start the server in development mode using `nodemon` |
+
+### Client (in the `client` folder)
+| Command        | Description                                                                 |
+| -------------- | --------------------------------------------------------------------------- |
+| `yarn dev`     | Run the client in development mode with Vite                                |
+| `yarn start`   | Alias for `yarn dev` – starts the Vite dev server                          |
+| `yarn build`   | Build for production: first `tsc -b`, then `vite build`                     |
+| `yarn preview` | Preview the production build locally via `vite preview`                     |
+| `yarn lint`    | Run ESLint on all project files                                             |
+| `yarn format`  | Format code with Prettier (`src/**/*.{js,jsx,ts,tsx,json,css,md}`)          |
 
 ---
 
