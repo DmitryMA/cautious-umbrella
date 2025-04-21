@@ -33,10 +33,10 @@ A brief description of what the application does and its purpose.
 ## Installation
 
 1. Clone the repository:
-   \`\`\`git clone git@github.com:DmitryMA/cautious-umbrella.git
-   cd cautious-umbrella\`\`\`
+   ```git clone git@github.com:DmitryMA/cautious-umbrella.git
+   cd cautious-umbrella```
 2. Install dependencies:
-   \`\`\`yarn\`\`\`
+   ```yarn```
 
 ---
 
@@ -44,8 +44,8 @@ A brief description of what the application does and its purpose.
 
 The application uses environment variables. In the \`client/\` directory, you will find example files:
 
-- **\`.env.local.example\`** — template for local environment variables.  
-  1. Rename \`client/.env.local.example\` to \`client/.env.local\`:     
+- **```.env.local.example```** — template for local environment variables.  
+  1. Rename ```client/.env.local.example``` to ```client/.env.local```:     
   2. Edit variables if needed. Valid defaults are already provided in the example.
 
 - **\`.env\`** — additional environment variables (optional).
