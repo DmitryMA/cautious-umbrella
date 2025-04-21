@@ -1,40 +1,121 @@
-# Presight Frontend Exercise
+## Dmitrii Makarov's Project
 
-#### Create a react application and nodes web server for the following use cases
+A brief description of what the application does and its purpose.
 
-1. Create a mock api to serve paginated list of information with filtering and search capabilities
+![Design Mockup](client/design.png)
+<!-- Add your design mockup image at client/design.png -->
 
-   - Define a data object having the following
-     - avatar
-     - first_name
-     - last_name
-     - age
-     - nationality
-     - hobbies (list of 0 to 10 items)
-   - Display the list as individual cards using virtual scroll component, subsequent pages must be loaded using infinite scroll technique (preferably using `@tanstack/react-virtual`)
-   - Design the card as
-     ```
-     |----------------------------------|
-     | avatar      first_name+last_name |
-     |             nationality      age |
-     |                                  |
-     |             (2 hobbies) (+n)     |
-     |----------------------------------|
-     ```
-     > display top 2 hobbies and show remaining count if applicable as _`+n`_
-   - Provide a side list in page to show top 20 hobbies and nationality that can be applied as filters
-   - Provide a searchbox to find and filter the data by first_name, last_name
+---
 
-2. Read http response as stream and create a display that will print the response one character at a time
+## Table of Contents
 
-   - Create an api that responds with long text (`faker.lorem.paragraphs(32)`)
-   - Read the response as a stream, while the stream is open display the available response one character at a time
-   - Once the stream is closed print entire response
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Environment Setup](#environment-setup)
+- [Running the Application](#running-the-application)
+- [Access](#access)
+- [Project Structure](#project-structure)
+- [Scripts](#scripts)
+- [Contributing](#contributing)
+- [License](#license)
+- [Next Steps / Improvements](#next-steps-improvements)
 
-3. Create an api that will process each request in webworker and respond with the result over websocket
+---
 
-   - The api endpoint must cache each request into an in-memory queue and respond with `pending`
-   - The queued requests must be processed in a webworker, the worker should send a result over websockets (for the exercise a text result can be sent after a timeout of 2seconds)
-   - In react show 20 items that correspond to 20 requests, display `pending` for each of the requests and display corresponding result on receiving the websocket result
+## Technologies
 
-   > request --> `pending` --> socket message --> `result`
+- Node.js
+- Yarn
+- Vite
+- React
+
+---
+
+## Installation
+
+1. Clone the repository:
+   \`git clone git@github.com:DmitryMA/cautious-umbrella.git
+   cd cautious-umbrella\`
+2. Install dependencies:
+   \`yarn\`
+
+---
+
+## Environment Setup
+
+The application uses environment variables. In the \`client/\` directory, you will find example files:
+
+- **\`.env.local.example\`** — template for local environment variables.  
+  1. Rename \`client/.env.local.example\` to \`client/.env.local\`:     
+  2. Edit variables if needed. Valid defaults are already provided in the example.
+
+- **\`.env\`** — additional environment variables (optional).
+
+> **Note:** Do not commit real secrets or sensitive data to version control.
+
+---
+
+## Running the Application
+
+From the project root, run:
+
+\`yarn start\`
+
+The application will build and start automatically.
+
+---
+
+## Access
+
+After starting, you will see in the console:
+
+\`
+🚀 Server running on http://localhost:3001
+  VITE v6.3.2  ready in 1586 ms
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+\`
+
+- **Frontend**: http://localhost:5173/  
+- **Backend** (server): http://localhost:3001
+
+---
+
+## Project Structure
+
+\`plaintext
+/
+├─ client/               # Frontend application
+│  ├─ public/            # Static assets
+│  ├─ src/               # Source code
+│  ├─ .env.local.example # Env template for client
+│  └─ ...
+├─ server/               # Backend server (if any)
+├─ package.json          # Scripts and dependencies
+└─ ...
+\`
+
+---
+
+## Scripts
+
+- \`yarn start\` — install dependencies and start the application.  
+- \`yarn build\` — create a production build (if configured).  
+- \`yarn test\` — run tests (if any).
+
+---
+
+## License
+
+Specify your project's license (e.g., MIT, Apache 2.0, etc.).
+
+---
+
+## Next Steps / Improvements
+
+- Migrate the server to TypeScript  
+- Add Storybook with Playwright smoke tests  
+- Set up GitHub Actions or Vercel for deployment  
+- Prepare production build configuration  
+- Complete URL synchronization for filter support (not all cases covered)
