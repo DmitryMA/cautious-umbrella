@@ -82,7 +82,6 @@ After starting, you will see in the console:
 ---
 ## How to Navigate
 
-After starting, you will see in the console:
 ![Navigate Between Tasks](navigate.gif)
 ---
 
