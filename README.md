@@ -2,7 +2,7 @@
 
 A brief description of what the application does and its purpose.
 
-![Design Mockup](client/design.png)
+![Design Mockup](design.png)
 
 ---
 
@@ -42,7 +42,7 @@ A brief description of what the application does and its purpose.
 
 ## Environment Setup
 
-The application uses environment variables. In the \`client/\` directory, you will find example files:
+The application uses environment variables. In the ```client``` directory, you will find example files:
 
 - **```.env.local.example```** — template for local environment variables.  
   1. Rename ```client/.env.local.example``` to ```client/.env.local```:     
@@ -79,6 +79,11 @@ After starting, you will see in the console:
 - **Frontend**: http://localhost:5173/  
 - **Backend** (server): http://localhost:3001
 
+---
+## How to Navigate
+
+After starting, you will see in the console:
+![Navigate Between Tasks](navigate.gif)
 ---
 
 ## Project Structure
