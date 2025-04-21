@@ -131,8 +131,15 @@ Specify your project's license (e.g., MIT, Apache 2.0, etc.).
 
 ## Next Steps / Improvements
 
-- Migrate the server to TypeScript  
-- Add Storybook with Playwright smoke tests  
-- Set up GitHub Actions or Vercel for deployment  
-- Prepare production build configuration  
-- Complete URL synchronization for filter support (not all cases covered)
+1. Implement token support for secure backend data access  
+2. Write unit tests  
+3. Set up GitHub Actions or Vercel for deployment  
+4. Prepare production build configuration  
+5. API documentation (Swagger/OpenAPI)  
+6. Logging and monitoring with Grafana  
+7. Add Storybook with Playwright smoke tests  
+8. Complete URL synchronization for filter support (not all cases covered)  
+9. Accessibility checks  
+10. Internationalization (i18n)  
+11. Migrate the server to TypeScript  
+
