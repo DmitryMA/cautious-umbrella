@@ -1,6 +1,7 @@
 {
-  "name": "presight-execise",
+  "name": "dmitrii-makarov-project",
   "version": "1.0.0",
+  "private": true, 
   "repository": "",
   "author": "",
   "license": "MIT",
@@ -9,7 +10,7 @@
     "server"
   ],
   "scripts": {
-    "start": "lerna run start"
+    "start": "lerna run start --parallel"
   },
   "devDependencies": {
     "lerna": "~8.2.1"

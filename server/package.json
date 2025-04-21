@@ -1,14 +1,20 @@
 {
-  "name": "presight-server",
+  "name": "dmitrii-makarov-project-server",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
     "express": "~5.1.0",
-    "socket.io": "~4.8.1"
+    "ws": "^8.18.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "devDependencies": {
-    "@types/express": "~5.0.1",
-    "@types/node-fetch": "~2.6.12"
+    "@faker-js/faker": "^9.7.0",
+    "nodemon": "^3.1.9"
   }
 }
