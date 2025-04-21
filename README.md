@@ -33,10 +33,10 @@ A brief description of what the application does and its purpose.
 ## Installation
 
 1. Clone the repository:
-   \`git clone git@github.com:DmitryMA/cautious-umbrella.git
-   cd cautious-umbrella\`
+   \`\`\`git clone git@github.com:DmitryMA/cautious-umbrella.git
+   cd cautious-umbrella\`\`\`
 2. Install dependencies:
-   \`yarn\`
+   \`\`\`yarn\`\`\`
 
 ---
 
