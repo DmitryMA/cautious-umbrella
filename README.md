@@ -33,8 +33,8 @@ A brief description of what the application does and its purpose.
 ## Installation
 
 1. Clone the repository:
-   ```git clone git@github.com:DmitryMA/cautious-umbrella.git
-   cd cautious-umbrella```
+   ```git clone git@github.com:DmitryMA/cautious-umbrella.git```
+   ```cd cautious-umbrella```
 2. Install dependencies:
    ```yarn```
 
@@ -48,7 +48,7 @@ The application uses environment variables. In the \`client/\` directory, you wi
   1. Rename ```client/.env.local.example``` to ```client/.env.local```:     
   2. Edit variables if needed. Valid defaults are already provided in the example.
 
-- **\`.env\`** — additional environment variables (optional).
+- **```.env```** — additional environment variables (optional).
 
 > **Note:** Do not commit real secrets or sensitive data to version control.
 
@@ -58,7 +58,7 @@ The application uses environment variables. In the \`client/\` directory, you wi
 
 From the project root, run:
 
-\`yarn start\`
+```yarn start```
 
 The application will build and start automatically.
 
@@ -68,13 +68,13 @@ The application will build and start automatically.
 
 After starting, you will see in the console:
 
-\`
+```
 🚀 Server running on http://localhost:3001
   VITE v6.3.2  ready in 1586 ms
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
   ➜  press h + enter to show help
-\`
+```
 
 - **Frontend**: http://localhost:5173/  
 - **Backend** (server): http://localhost:3001
@@ -83,7 +83,7 @@ After starting, you will see in the console:
 
 ## Project Structure
 
-\`plaintext
+```plaintext
 /
 ├─ client/               # Frontend application
 │  ├─ public/            # Static assets
@@ -93,15 +93,15 @@ After starting, you will see in the console:
 ├─ server/               # Backend server (if any)
 ├─ package.json          # Scripts and dependencies
 └─ ...
-\`
+```
 
 ---
 
 ## Scripts
 
-- \`yarn start\` — install dependencies and start the application.  
-- \`yarn build\` — create a production build (if configured).  
-- \`yarn test\` — run tests (if any).
+- ```yarn start``` — install dependencies and start the application.  
+- ```yarn build``` — create a production build (if configured).  
+- ```yarn test``` — run tests (if any).
 
 ---
 
