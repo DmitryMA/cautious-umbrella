@@ -29,10 +29,28 @@ How to Navigate
 
 ## Technologies
 
-- Node.js
-- Yarn
-- Vite
-- React
+### 🔹 Client-side (Frontend)
+- **React 19** + **React DOM**
+- **TypeScript**
+- **Vite** — modern bundler and dev server
+- **React Router v7** — routing
+- **TanStack React Query** — data fetching & caching
+- **TanStack React Virtual** — list virtualization
+- **Tailwind CSS** — utility-first styling
+- **React Content Loader** — skeleton loaders
+- **ESLint + Prettier** — linting & formatting
+- **Storybook** *(planned)*
+- **GitHub Actions CI** *(planned)*
+
+### 🔸 Server-side (Backend)
+- **Node.js + Express 5**
+- **WebSocket (ws)** — real-time updates
+- **CORS + dotenv** — configuration & security
+- **faker.js** — mock data generation
+- **Nodemon** — auto-restarting server during development
+
+### 🧩 Monorepo Management
+- **Lerna** — managing `client` and `server` packages in a monorepo
 
 ---
 
