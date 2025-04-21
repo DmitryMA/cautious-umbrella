@@ -4,6 +4,12 @@ A brief description of what the application does and its purpose.
 
 ![Design Mockup](design.png)
 
+
+---
+How to Navigate
+
+![Navigate Between Tasks](navigate.gif)
+
 ---
 
 ## Table of Contents
@@ -79,10 +85,6 @@ After starting, you will see in the console:
 - **Frontend**: http://localhost:5173/  
 - **Backend** (server): http://localhost:3001
 
----
-## How to Navigate
-
-![Navigate Between Tasks](navigate.gif)
 ---
 
 ## Project Structure
