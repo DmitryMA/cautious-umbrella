@@ -1,12 +1,12 @@
 ## Dmitrii Makarov's Project
 
-# 🚀 Interactive Demo 
+### 🚀 Interactive Demo 
 
 ![Navigate Between Tasks](navigate.gif)
 
 ---
 
-# 🧩 Architecture Overview
+### 🧩 Architecture Overview
 
 ![Design Mockup](design.png)
 
