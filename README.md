@@ -3,7 +3,6 @@
 A brief description of what the application does and its purpose.
 
 ![Design Mockup](client/design.png)
-<!-- Add your design mockup image at client/design.png -->
 
 ---
 
