@@ -1,12 +1,37 @@
 import { useEffect, useRef, useState } from 'react';
 
 import config from '../../../config';
+import { useStableFn } from '../../profiles/hooks/useStableFn';
 
 enum STATUS {
   init = 'init',
   pending = 'pending',
   done = 'done',
 }
+
+const STATUS_COMPONENT = new Map<STATUS, { text: string; classNames: string }>([
+  [
+    STATUS.init,
+    {
+      text: '⏳ Init',
+      classNames: 'bg-blue-100 text-blue-800',
+    },
+  ],
+  [
+    STATUS.pending,
+    {
+      text: '● Pending',
+      classNames: 'bg-yellow-100 text-yellow-800 animate-pulse',
+    },
+  ],
+  [
+    STATUS.done,
+    {
+      text: '✓ Done',
+      classNames: 'bg-green-100 text-green-800',
+    },
+  ],
+]);
 
 const WS_BASE_PATH = config.websocketUrl;
 const BASE_API_PATH = config.apiBaseUrl;
@@ -19,18 +44,21 @@ export default function RequestQueue() {
   );
   const socketRef = useRef<WebSocket>(null);
 
+  const handleUpdateItems = useStableFn(({ id, status }) => {
+    setItems(prev => prev.map(item => (item.id === id ? { ...item, status } : item)));
+  });
+
   useEffect(() => {
     socketRef.current = new WebSocket(`${WS_BASE_PATH}/ws`);
 
     socketRef.current.onmessage = (event: MessageEvent) => {
       const { id, status } = JSON.parse(event.data);
-
-      setItems(prev => prev.map(item => (item.id === id ? { ...item, status } : item)));
+      handleUpdateItems({ id, status });
     };
     return () => {
       socketRef.current?.close();
     };
-  }, []);
+  }, [handleUpdateItems]);
 
   useEffect(() => {
     const controllers: AbortController[] = [];
@@ -46,9 +74,7 @@ export default function RequestQueue() {
         signal: controller.signal,
       })
         .then(res => res.json())
-        .then(({ id, status }) => {
-          setItems(prev => prev.map(item => (item.id === id ? { ...item, status } : item)));
-        })
+        .then(({ id, status }) => handleUpdateItems({ id, status }))
         .catch((err: unknown) => {
           if (err instanceof DOMException && err.name === 'AbortError') {
             // it's expected
@@ -59,36 +85,29 @@ export default function RequestQueue() {
       controllers.forEach(ctrl => ctrl.abort());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [handleUpdateItems]);
 
   return (
     <div className='p-6 bg-gray-50 min-h-screen'>
       <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'>
-        {items.map(it => (
-          <div
-            key={it.id}
-            className='bg-white rounded-xl shadow-md p-5 flex flex-col justify-between hover:shadow-lg transition-shadow duration-200'
-          >
-            <div className='flex items-center justify-between'>
-              <span className='text-lg font-normal text-gray-700 text-nowrap'>
-                Request #{it.id}
-              </span>
-              {it.status === STATUS.init ? (
-                <span className='inline-flex text-nowrap items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 animate-pulse'>
-                  ⏳ Init
+        {items.map(({ id, status }) => {
+          const statusMetaData = STATUS_COMPONENT.get(status);
+          return (
+            <div
+              key={id}
+              className='bg-white rounded-xl shadow-md p-5 flex flex-col justify-between hover:shadow-lg transition-shadow duration-200'
+            >
+              <div className='flex items-center justify-between'>
+                <span className='text-lg font-normal text-gray-700 text-nowrap'>Request #{id}</span>
+                <span
+                  className={`inline-flex text-nowrap items-center px-2 py-1 text-xs font-semibold rounded-full ${statusMetaData?.classNames || ''}`}
+                >
+                  {statusMetaData?.text}
                 </span>
-              ) : it.status === STATUS.pending ? (
-                <span className='inline-flex text-nowrap items-center px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 animate-pulse'>
-                  ● Pending
-                </span>
-              ) : (
-                <span className='inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800'>
-                  ✓ Done
-                </span>
-              )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
