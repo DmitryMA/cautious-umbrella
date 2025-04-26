@@ -248,12 +248,12 @@ for (let i = 0; i < WORKER_POOL_SIZE; i++) {
   worker.busy = false;
   workers.push(worker);
   
-  worker.on('message', ({ id, result }) => {
+  worker.on('message', ({ id, status }) => {
     worker.busy = false;
 
     for (const wsClient of wss.clients) {
       if (wsClient.readyState === WebSocket.OPEN) {
-        wsClient.send(JSON.stringify({ id, result }));
+        wsClient.send(JSON.stringify({ id, status }));
       }
     }
 
@@ -282,9 +282,9 @@ app.post(`/${API_VERSION}/queue`, (req, res) => {
   };
 
   queue.push(id);
-  res.json({ id, status: 'pending' });
-  
   processQueue();
+
+  res.json({ id, status: 'pending' });
 });
 
 // terminate all workers
