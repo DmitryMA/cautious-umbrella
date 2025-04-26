@@ -18,9 +18,6 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-// init in-memory queue
-const queue = [];
-
 const API_VERSION = process.env.API_VERSION || 'v1';
 const FRONTEND_ORIGIN = process.env.ORIGIN || 'http://localhost:5173';
 const PORT = parseInt(process.env.PORT, 10) || 3001;
@@ -227,6 +224,25 @@ app.get(`/${API_VERSION}/stream-text`, async (_, res) => {
   res.end();
 });
 
+
+// init in-memory queue
+let queue = [];
+// Launch Worker
+const worker = new Worker(workerPath);
+let isWorkerBusy = false;
+
+// processing queue
+function processQueue() {
+  if (isWorkerBusy || queue.length === 0) return;
+
+  isWorkerBusy = true;
+ 
+  const id = queue.shift();
+  worker.postMessage({ id });
+  
+  setTimeout(processQueue, 100);
+}
+
 // POST: Queue Requests
 app.post(`/${API_VERSION}/queue`, (req, res) => {
   const { id } = req.body;
@@ -235,17 +251,15 @@ app.post(`/${API_VERSION}/queue`, (req, res) => {
   };
 
   queue.push(id);
-  worker.postMessage({ id });
 
+  processQueue();
   res.json({ status: 'pending' });
 });
 
-
-// Launch Worker
-const worker = new Worker(workerPath);
-
-// Once worker is finished -> send each WS clients
+// Once worker is finished -> send each WS clients -> worker is not busy
 worker.on('message', ({ id, result }) => {
+  isWorkerBusy = false;
+  processQueue();  
   for (const wsClient of wss.clients) {
     if (wsClient.readyState === WebSocket.OPEN) {
       wsClient.send(JSON.stringify({ id, result }));

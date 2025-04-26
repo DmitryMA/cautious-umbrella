@@ -21,7 +21,9 @@ export function useTextStream() {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
+
     const decoder = new TextDecoder('utf-8');
+
     const flushBuffer = createFlushBuffer(
       byteChunksRef,
       decoder,
@@ -35,8 +37,10 @@ export function useTextStream() {
       setStreamedText('');
       setFullText('');
       setError(null);
+
       byteChunksRef.current = [];
       fullRef.current = '';
+
       if (flushTimerRef.current) {
         clearTimeout(flushTimerRef.current);
       }
@@ -45,6 +49,7 @@ export function useTextStream() {
         const response = await fetch(STREAM_URL, { signal });
         if (!response.body) throw new Error('No response body');
 
+        // return promise
         const reader = response.body.getReader();
 
         while (true) {

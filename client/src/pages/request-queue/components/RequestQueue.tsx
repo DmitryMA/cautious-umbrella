@@ -20,8 +20,10 @@ export default function RequestQueue() {
 
   useEffect(() => {
     socketRef.current = new WebSocket(`${WS_BASE_PATH}/ws`);
+
     socketRef.current.onmessage = (event: MessageEvent) => {
       const { id, result } = JSON.parse(event.data);
+
       setItems(prev =>
         prev.map(item => (item.id === id ? { ...item, status: STATUS.done, result } : item)),
       );
