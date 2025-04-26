@@ -1,6 +1,7 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function TaskNav() {
+function TaskNav() {
   return (
     <nav className='flex gap-4 mb-4'>
       <Link to='/task/1' className='text-blue-500 hover:underline'>
@@ -15,3 +16,5 @@ export default function TaskNav() {
     </nav>
   );
 }
+
+export default React.memo(TaskNav);

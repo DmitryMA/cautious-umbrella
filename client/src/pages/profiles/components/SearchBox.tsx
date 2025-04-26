@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import React from 'react';
 
 import useDebounce from '../hooks/useDebounce';
 import { useFiltersFromQuery } from '../hooks/useFiltersFromQuery';
@@ -65,4 +66,4 @@ function SearchBox({ setPrefix }: Props) {
   );
 }
 
-export default SearchBox;
+export default React.memo(SearchBox);

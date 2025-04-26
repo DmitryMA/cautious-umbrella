@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import config from '../../../config';
 import { useStableFn } from '../../profiles/hooks/useStableFn';
 
+import StatusCard from './StatusCard';
+
 enum STATUS {
   init = 'init',
   pending = 'pending',
@@ -93,19 +95,12 @@ export default function RequestQueue() {
         {items.map(({ id, status }) => {
           const statusMetaData = STATUS_COMPONENT.get(status);
           return (
-            <div
+            <StatusCard
               key={id}
-              className='bg-white rounded-xl shadow-md p-5 flex flex-col justify-between hover:shadow-lg transition-shadow duration-200'
-            >
-              <div className='flex items-center justify-between'>
-                <span className='text-lg font-normal text-gray-700 text-nowrap'>Request #{id}</span>
-                <span
-                  className={`inline-flex text-nowrap items-center px-2 py-1 text-xs font-semibold rounded-full ${statusMetaData?.classNames || ''}`}
-                >
-                  {statusMetaData?.text}
-                </span>
-              </div>
-            </div>
+              id={id}
+              classNames={statusMetaData?.classNames || ''}
+              text={statusMetaData?.text || ''}
+            />
           );
         })}
       </div>

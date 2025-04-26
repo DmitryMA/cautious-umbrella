@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import config from '../../../config';
-
-import { createFlushBuffer } from './useFlushBuffer';
+import { createFlushBuffer } from '../utils/utils';
 
 const BASE_API_PATH = config.apiBaseUrl;
 
@@ -24,13 +23,13 @@ export function useTextStream() {
 
     const decoder = new TextDecoder('utf-8');
 
-    const flushBuffer = createFlushBuffer(
+    const flushBuffer = createFlushBuffer({
       byteChunksRef,
       decoder,
       setStreamedText,
       fullRef,
       flushTimerRef,
-    );
+    });
 
     const fetchStream = async () => {
       setIsLoading(true);
