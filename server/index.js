@@ -243,12 +243,10 @@ let queue = [];
 const workers = [];
 const WORKER_POOL_SIZE = 4;
 
-
 for (let i = 0; i < WORKER_POOL_SIZE; i++) {
   const worker = new Worker(workerPath);
   worker.busy = false;
   workers.push(worker);
-
   
   worker.on('message', ({ id, result }) => {
     worker.busy = false;
@@ -284,13 +282,14 @@ app.post(`/${API_VERSION}/queue`, (req, res) => {
   };
 
   queue.push(id);
-  res.json({ status: 'pending' });
+  res.json({ id, status: 'pending' });
   
   processQueue();
 });
 
 // terminate all workers
 async function shutdownWorkers() {
+  console.log('all workers are terminated');
   for (const worker of workers) {
     await worker.terminate(); 
   }
@@ -301,8 +300,12 @@ server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
 
-server.close(async () => {
-  console.log('Server closed');
+process.on('SIGINT', async () => {
+  await shutdownWorkers();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
   await shutdownWorkers();
   process.exit(0);
 });

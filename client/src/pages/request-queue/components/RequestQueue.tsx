@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import config from '../../../config';
 
 enum STATUS {
+  init = 'init',
   pending = 'pending',
   done = 'done',
 }
@@ -10,11 +11,11 @@ enum STATUS {
 const WS_BASE_PATH = config.websocketUrl;
 const BASE_API_PATH = config.apiBaseUrl;
 
-type Item = { id: number; status: STATUS; result?: string };
+type Item = { id: number; status: STATUS };
 
 export default function RequestQueue() {
   const [items, setItems] = useState<Item[]>(
-    Array.from({ length: 20 }, (_, idx) => ({ id: idx + 1, status: STATUS.pending })),
+    Array.from({ length: 20 }, (_, idx) => ({ id: idx + 1, status: STATUS.init })),
   );
   const socketRef = useRef<WebSocket>(null);
 
@@ -22,11 +23,9 @@ export default function RequestQueue() {
     socketRef.current = new WebSocket(`${WS_BASE_PATH}/ws`);
 
     socketRef.current.onmessage = (event: MessageEvent) => {
-      const { id, result } = JSON.parse(event.data);
+      const { id, status } = JSON.parse(event.data);
 
-      setItems(prev =>
-        prev.map(item => (item.id === id ? { ...item, status: STATUS.done, result } : item)),
-      );
+      setItems(prev => prev.map(item => (item.id === id ? { ...item, status } : item)));
     };
     return () => {
       socketRef.current?.close();
@@ -47,8 +46,8 @@ export default function RequestQueue() {
         signal: controller.signal,
       })
         .then(res => res.json())
-        .then(() => {
-          // status is already "pending" for all items
+        .then(({ id, status }) => {
+          setItems(prev => prev.map(item => (item.id === id ? { ...item, status } : item)));
         })
         .catch((err: unknown) => {
           if (err instanceof DOMException && err.name === 'AbortError') {
@@ -74,7 +73,11 @@ export default function RequestQueue() {
               <span className='text-lg font-normal text-gray-700 text-nowrap'>
                 Request #{it.id}
               </span>
-              {it.status === STATUS.pending ? (
+              {it.status === STATUS.init ? (
+                <span className='inline-flex text-nowrap items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 animate-pulse'>
+                  ⏳ Init
+                </span>
+              ) : it.status === STATUS.pending ? (
                 <span className='inline-flex text-nowrap items-center px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800 animate-pulse'>
                   ● Pending
                 </span>
