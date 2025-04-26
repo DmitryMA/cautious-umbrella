@@ -74,6 +74,12 @@ app.get('/', (_, res) => {
   `);
 });
 
+
+
+// =========================
+// TASK 1
+// =========================
+
 // GET: Prefetch-filter: hobbies
 app.get(`/${API_VERSION}/prefetch-filter/hobbies`, (_, res) => res.json({ results: HOBBIES }));
 
@@ -209,6 +215,9 @@ app.get(`/${API_VERSION}/profiles`, (req, res) => {
   });
 });
 
+// =========================
+// TASK 2
+// =========================
 
 // GET: Stream Text
 app.get(`/${API_VERSION}/stream-text`, async (_, res) => {
@@ -224,23 +233,47 @@ app.get(`/${API_VERSION}/stream-text`, async (_, res) => {
   res.end();
 });
 
+// =========================
+// TASK 3
+// =========================
 
 // init in-memory queue
 let queue = [];
-// Launch Worker
-const worker = new Worker(workerPath);
-let isWorkerBusy = false;
+
+const workers = [];
+const WORKER_POOL_SIZE = 4;
+
+
+for (let i = 0; i < WORKER_POOL_SIZE; i++) {
+  const worker = new Worker(workerPath);
+  worker.busy = false;
+  workers.push(worker);
+
+  
+  worker.on('message', ({ id, result }) => {
+    worker.busy = false;
+
+    for (const wsClient of wss.clients) {
+      if (wsClient.readyState === WebSocket.OPEN) {
+        wsClient.send(JSON.stringify({ id, result }));
+      }
+    }
+
+    processQueue();
+  });
+}
 
 // processing queue
 function processQueue() {
-  if (isWorkerBusy || queue.length === 0) return;
+  if (queue.length === 0) return;
 
-  isWorkerBusy = true;
- 
-  const id = queue.shift();
-  worker.postMessage({ id });
-  
-  setTimeout(processQueue, 100);
+  for (const worker of workers) {
+    if (!worker.busy && queue.length > 0) {
+      const id = queue.shift();
+      worker.busy = true;
+      worker.postMessage({ id });
+    }
+  }
 }
 
 // POST: Queue Requests
@@ -251,22 +284,25 @@ app.post(`/${API_VERSION}/queue`, (req, res) => {
   };
 
   queue.push(id);
-
-  processQueue();
   res.json({ status: 'pending' });
+  
+  processQueue();
 });
 
-// Once worker is finished -> send each WS clients -> worker is not busy
-worker.on('message', ({ id, result }) => {
-  isWorkerBusy = false;
-  processQueue();  
-  for (const wsClient of wss.clients) {
-    if (wsClient.readyState === WebSocket.OPEN) {
-      wsClient.send(JSON.stringify({ id, result }));
-    }
+// terminate all workers
+async function shutdownWorkers() {
+  for (const worker of workers) {
+    await worker.terminate(); 
   }
-});
+  console.log('✅ All workers terminated');
+}
 
 server.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
+
+server.close(async () => {
+  console.log('Server closed');
+  await shutdownWorkers();
+  process.exit(0);
 });
