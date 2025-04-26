@@ -23,4 +23,4 @@ const ProfileListLoader = () => (
   </ContentLoader>
 );
 
-export default ProfileListLoader;
+export default React.memo(ProfileListLoader);

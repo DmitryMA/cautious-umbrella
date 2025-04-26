@@ -1,3 +1,4 @@
+import React from 'react';
 import ContentLoader from 'react-content-loader';
 
 const SearchBoxLoader = () => (
@@ -12,4 +13,4 @@ const SearchBoxLoader = () => (
   </ContentLoader>
 );
 
-export default SearchBoxLoader;
+export default React.memo(SearchBoxLoader);

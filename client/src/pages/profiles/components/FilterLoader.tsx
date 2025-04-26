@@ -19,4 +19,4 @@ const FilterLoader = () => (
   </ContentLoader>
 );
 
-export default FilterLoader;
+export default React.memo(FilterLoader);
